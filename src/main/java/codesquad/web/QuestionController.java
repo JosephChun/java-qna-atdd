@@ -46,7 +46,6 @@ public class QuestionController {
 
     @GetMapping("/{id}/form")
     public String updateForm(@PathVariable Long id, Model model, @LoginUser User loginUser) {
-        log.debug("asjdfi;asfda");
         model.addAttribute("question", qnaService.userCheck(loginUser, id));
         return "/qna/updateForm";
     }

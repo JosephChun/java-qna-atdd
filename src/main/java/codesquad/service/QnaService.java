@@ -42,8 +42,9 @@ public class QnaService {
     }
 
     public Question userCheck(User loginUser, long id) {
+        log.debug("Login User : {}", loginUser);
         return questionRepository.findById(id)
-                .filter(user -> user.equals(loginUser))
+                .filter(question ->  question.isOwner(loginUser))
                 .orElseThrow(UnAuthorizedException::new);
     }
 
