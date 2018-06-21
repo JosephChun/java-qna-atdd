@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import codesquad.UnAuthorizedException;
+import codesquad.dto.QuestionDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
