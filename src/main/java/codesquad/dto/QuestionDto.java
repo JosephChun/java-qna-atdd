@@ -52,4 +52,8 @@ public class QuestionDto {
         return this;
     }
 
+    public Question toQuestion() {
+        return new Question(this.title, this.contents);
+    }
+
 }
