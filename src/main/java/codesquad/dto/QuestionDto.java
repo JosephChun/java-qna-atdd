@@ -71,4 +71,5 @@ public class QuestionDto {
 
         return Objects.hash(title, contents);
     }
+
 }

@@ -14,6 +14,8 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.net.URI;
 
+//REST CONTROLLER를 쓰는 이유 JSON이나 XML형식의 데이터를 응답하려고 쓴다
+
 @RestController
 @RequestMapping("/api/questions")
 public class ApiQuestionController {
@@ -28,18 +30,18 @@ public class ApiQuestionController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public QuestionDto show(@PathVariable long id) {
-        Question question = qnaService.findById(id).get();
+        Question question = qnaService.findById(id);
         return question.toQuestionDto();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public void update(@PathVariable long id, @LoginUser User loginUser, @Valid @RequestBody QuestionDto question) {
         qnaService.update(loginUser, id, question.getTitle(), question.getContents());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable long id, @LoginUser User loginUser) {
         qnaService.delete(loginUser, id);
     }
