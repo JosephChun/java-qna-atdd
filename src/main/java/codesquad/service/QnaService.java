@@ -50,6 +50,12 @@ public class QnaService {
                 .orElseThrow(UnAuthorizedException::new);
     }
 
+    public Answer savedUserCheck(User loginUser, long id) {
+        return answerRepository.findById(id)
+                .filter(answer -> answer.isOwner(loginUser))
+                .orElseThrow(UnAuthorizedException::new);
+    }
+
     @Transactional
     public Question update(User loginUser, long id, String title, String contents) {
         Question updatedQuestion = userCheck(loginUser, id);
@@ -72,12 +78,18 @@ public class QnaService {
         return questionRepository.findAll(pageable).getContent();
     }
 
-    public Answer addAnswer(User loginUser, long questionId, String contents) {
-        return null;
+    public Answer findByAnswer(long id) {
+        return answerRepository.findById(id).get();
     }
 
-    public Answer deleteAnswer(User loginUser, long id) {
-        // TODO 답변 삭제 기능 구현 
-        return null;
+    public Answer addAnswer(User loginUser, long questionId, String contents) {
+        Answer answer = new Answer(loginUser, contents);
+        answer.toQuestion(findById(questionId));
+        return answerRepository.save(answer);
+    }
+
+    @Transactional
+    public void deleteAnswer(User loginUser, long id) {
+        answerRepository.delete(savedUserCheck(loginUser, id));
     }
 }
