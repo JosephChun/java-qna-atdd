@@ -75,7 +75,7 @@ public class QnaService {
     }
 
     public Answer findByAnswer(long id) {
-        return answerRepository.findById(id).get();
+        return answerRepository.findById(id).filter(Answer::isDeleted).orElseThrow(UnAuthorizedException::new);
     }
 
     public Answer addAnswer(User loginUser, long questionId, String contents) {

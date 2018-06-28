@@ -87,6 +87,7 @@ public class Answer extends AbstractEntity implements UrlGeneratable {
         return writer.equals(loginUser);
     }
 
+    //찾을때 쓰기!!
     public boolean isDeleted() {
         return deleted;
     }

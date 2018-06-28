@@ -37,7 +37,7 @@ public class Question extends AbstractEntity implements UrlGeneratable {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
     private User writer;
 
-    // 테스트 할 때 댓글 삭제 물리적인 삭제 가 아니라 논리적인 삭제,
+    // 테스트 할 때 댓글 삭제 물리적인 삭제 가 아니라 논리적인 삭제, ㅇㅁ너라ㅣㅇ너라ㅣㅇㄴ멂아ㅣ;ㄴ러마ㅣ;ㅇㄴ럼;이ㅏㄴ럼;ㅣㄴ러이걸 어떻게 해결해야 하나요??
     @OneToMany(mappedBy = "question")
     @Where(clause = "deleted = false")
     @OrderBy("id ASC")
