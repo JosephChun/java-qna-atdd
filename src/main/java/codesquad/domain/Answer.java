@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
 import codesquad.UnAuthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import support.domain.AbstractEntity;
 import support.domain.UrlGeneratable;
 
@@ -17,6 +19,8 @@ import java.util.Objects;
 
 @Entity
 public class Answer extends AbstractEntity implements UrlGeneratable {
+    private static final Logger log = LoggerFactory.getLogger(Answer.class);
+
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_writer"))
     private User writer;
@@ -61,7 +65,6 @@ public class Answer extends AbstractEntity implements UrlGeneratable {
         }
         deleted = true;
         return new DeleteHistory(ContentType.ANSWER, getId(), loginUser, LocalDateTime.now());
-
     }
 
     public User getWriter() {
@@ -125,6 +128,11 @@ public class Answer extends AbstractEntity implements UrlGeneratable {
 
     @Override
     public String toString() {
-        return "Answer [id=" + getId() + ", writer=" + writer + ", contents=" + contents + "]";
+        return "Answer{" +
+                "writer=" + writer +
+                ", question=" + question +
+                ", contents='" + contents + '\'' +
+                ", deleted=" + deleted +
+                '}';
     }
 }

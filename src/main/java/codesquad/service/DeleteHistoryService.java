@@ -23,7 +23,7 @@ public class DeleteHistoryService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void saveDeleteHistory(DeleteHistory deleteHistory) {
         deleteHistoryRepository.save(deleteHistory);
     }

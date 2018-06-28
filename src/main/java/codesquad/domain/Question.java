@@ -37,6 +37,7 @@ public class Question extends AbstractEntity implements UrlGeneratable {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
     private User writer;
 
+    // 테스트 할 때 댓글 삭제 물리적인 삭제 가 아니라 논리적인 삭제,
     @OneToMany(mappedBy = "question")
     @Where(clause = "deleted = false")
     @OrderBy("id ASC")
