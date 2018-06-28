@@ -7,9 +7,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import codesquad.UnAuthorizedException;
 import support.domain.AbstractEntity;
 import support.domain.UrlGeneratable;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +29,8 @@ public class Answer extends AbstractEntity implements UrlGeneratable {
     @Lob
     private String contents;
 
+
+    // 댓글을 생성했으니까 기존 deleted 상태는 false, 그런데 나중에 지울때 true로 사용해라
     private boolean deleted = false;
 
     public Answer() {
@@ -48,6 +53,15 @@ public class Answer extends AbstractEntity implements UrlGeneratable {
         this.question = question;
         this.contents = contents;
         this.deleted = false;
+    }
+
+    public DeleteHistory delete(User loginUser) {
+        if (!isOwner(loginUser)) {
+            throw new UnAuthorizedException("삭제 할 수 없습니다.");
+        }
+        deleted = true;
+        return new DeleteHistory(ContentType.ANSWER, getId(), loginUser, LocalDateTime.now());
+
     }
 
     public User getWriter() {
