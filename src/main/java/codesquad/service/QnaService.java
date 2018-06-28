@@ -36,7 +36,7 @@ public class QnaService {
     }
 
     public Question findById(long id) {
-        return questionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return questionRepository.findById(id).filter(question -> !question.isDeleted()).orElseThrow(EntityNotFoundException::new);
     }
 
     public Question userCheck(User loginUser, long id) {
@@ -61,9 +61,9 @@ public class QnaService {
 
     @Transactional
     public void deleteQuestion(User loginUser, long questionId) {
-        Question question = userCheck(loginUser, questionId);
-        log.debug("q : {}", question.toString());
-        questionRepository.deleteById(questionId);
+        Question question = findById(questionId);
+        List<DeleteHistory> deleteHistory = question.delete(loginUser);
+        deleteHistoryService.saveAll(deleteHistory);
     }
 
     public Iterable<Question> findAll() {
@@ -75,7 +75,7 @@ public class QnaService {
     }
 
     public Answer findByAnswer(long id) {
-        return answerRepository.findById(id).filter(Answer::isDeleted).orElseThrow(UnAuthorizedException::new);
+        return answerRepository.findById(id).filter(answer -> !answer.isDeleted()).orElseThrow(UnAuthorizedException::new);
     }
 
     public Answer addAnswer(User loginUser, long questionId, String contents) {
